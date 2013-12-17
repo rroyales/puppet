@@ -1,0 +1,43 @@
+import 'nodes.pp'
+
+file { '/tmp/hello1':
+  content => "Hello, world\n",
+  }
+
+$eggs = 61
+if $eggs!=60{
+  file { '/tmp/aritmetic.txt':
+    content => inline_template("test? <%= 1 << 5 %>.\n ")
+  }
+}
+
+$developers = ['jerry', 'george', 'elaine']
+
+file { '/tmp/hello2':
+  content => "The last developer is: ${developers[-1]}:"}
+
+#dictionary, hash in puppet
+
+$interfaces1 = {
+  'lo0'  => '127.0.0.1',
+  'eth0' => '192.168.0.1',
+}
+$address = $interfaces1['eth0']
+
+file { '/tmp/hello3':
+  content => "The first address is ${interfaces1['lo0']} \n The 2nd address is: ${address}:"}
+
+
+
+
+### inline templates
+file { '/tmp/the_answer.txt':
+  content => inline_template("What do you get if you multiply six by nine? <%= 6 * 7 %>.\n The time is <%= Time.now %> ")
+}
+  
+file { '/tmp/ipaddress.txt':
+  content => inline_template("My address is <%= @ipaddress%>  <%= @hostname%>  .\n")
+}
+
+
+
